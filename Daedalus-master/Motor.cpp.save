@@ -1,0 +1,30 @@
+#include <iostream>
+#include <cmath>
+
+#include "Motor.h"
+
+Motor::Motor()
+{
+	wiringPiSetup();
+	pinMode(1,2);
+	pinMode(2,2);
+	softPwmCreate(1,15,25);
+	softPwmCreate(2,15,25);
+}
+
+Motor::setLeftSpeed(int leftSpeed){
+	softPwmWrite(1,leftSpeed/10+15);
+}
+Motor::setRightSpeed(int rightSpeed){
+        softPwmWrite(2,rightSpeed/10+15);
+}
+
+Motor::setSpeed(int speed){
+        softPwmWrite(1,speed/10+15);
+	Motor::setLeftSpeed(int leftSpeed){
+        softPwmWrite(1,leftSpeed/10+15);
+}
+
+}
+
+
