@@ -1,4 +1,4 @@
-# Daedalus2.0
+# Excalibur
 St. George's Robotics GitHub 2016/2017
 
 Welcome to the St. George's GitHub repsitory. Here you can find the code we use in the robot.
