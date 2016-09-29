@@ -12,3 +12,6 @@ int main(){
 	softPwmCreate(2,23,100);
 	delayMicroseconds (40000000);
 }
+//What's this do
+//Pretty cool
+//Blegh
