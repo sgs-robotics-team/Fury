@@ -23,6 +23,8 @@ Compass::Compass(){
     }
     initializeInterface(B19200);
     sendCommand(3);
+	
+    readCompass(); //important
 }
 
 void Compass::refresh(){
