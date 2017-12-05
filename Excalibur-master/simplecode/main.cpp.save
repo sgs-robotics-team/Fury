@@ -1,0 +1,15 @@
+#include "Motor.h"
+#include "Stepper.h"
+#include "PID_Controller.h"
+#include "Compass.h"
+#include <unistd.h>
+
+int main(){
+	Motor m;
+	Stepper s;
+	PID_Controller PID;
+	Compass c;
+	usleep(5000000);
+	m.setSpeed(30);
+	
+}
