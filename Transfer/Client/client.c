@@ -9,7 +9,7 @@
 #include <errno.h>
 #include <arpa/inet.h> 
 
-char str[15] = "192.168.0.17"
+char str[15] = "192.168.0.17";
 
 int main(int argc, char *argv[])
 {
