@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     struct sockaddr_in serv_addr; 
 
     char sendBuff[1025];
-    time_t ticks; 
+    int value=0;
 
     listenfd = socket(AF_INET, SOCK_STREAM, 0);
     memset(&serv_addr, '0', sizeof(serv_addr));
@@ -33,8 +33,8 @@ int main(int argc, char *argv[])
     {
         connfd = accept(listenfd, (struct sockaddr*)NULL, NULL); 
 
-        ticks = time(NULL);
-        snprintf(sendBuff, sizeof(sendBuff), "%.24s\r\n", ctime(&ticks));
+        value++;
+        snprintf(sendBuff, sizeof(sendBuff), "%d",value);
         write(connfd, sendBuff, strlen(sendBuff)); 
 
         close(connfd);
