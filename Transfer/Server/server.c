@@ -12,7 +12,7 @@ int listenfd = 0, connfd = 0;
 struct sockaddr_in serv_addr; 
 char sendBuff[1025];
 
-int setup(char* sendBuff)
+int setup()
 {
   
     listenfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -31,16 +31,13 @@ int setup(char* sendBuff)
 
 int send(){
     
-    while(1)
-    {
-        connfd = accept(listenfd, (struct sockaddr*)NULL, NULL); 
+    connfd = accept(listenfd, (struct sockaddr*)NULL, NULL); 
 
-        ticks = time(NULL);
-        snprintf(sendBuff, sizeof(sendBuff), "%.24s\r\n", ctime(&ticks));
-        write(connfd, sendBuff, strlen(sendBuff)); 
+    ticks = time(NULL);
+    snprintf(sendBuff, sizeof(sendBuff), "%.24s\r\n", ctime(&ticks));
+    write(connfd, sendBuff, strlen(sendBuff)); 
 
-        close(connfd);
-        sleep(1);
-     }
+    close(connfd);
+    sleep(1);
     
 }
