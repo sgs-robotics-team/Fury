@@ -83,6 +83,11 @@ void Motor::readMotor(){
 
 }
 
+void Motor::sendCommand(){
+	
+	
+}
+
 std::string getAlarm(int code){
 }
 
