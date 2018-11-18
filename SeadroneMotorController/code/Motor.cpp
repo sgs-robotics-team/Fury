@@ -72,12 +72,12 @@ int Motor::initializeInterface(int speed){
 
 void Motor::readMotor(){
 
-	char c = 0;
+	char c = ' ';
 	int a = 0;
 	while(a<50){
 		read (fd,&c,1);
 		std::cout<<c;
-		a++;
+		buf[a++]=c;
 	}
 
 }
