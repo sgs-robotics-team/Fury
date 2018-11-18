@@ -34,6 +34,7 @@ Motor::Motor()
 	std::cout << "initiazlied interface\n";
 	readMotor();
 	std::cout << "read motor\n";
+	
 }
 
 int Motor::initializeInterface(int speed){
@@ -72,9 +73,9 @@ int Motor::initializeInterface(int speed){
 
 void Motor::readMotor(){
 
-	char c = ' ';
+	char c = 0;
 	int a = 0;
-	while(a<50){
+	while(a<100){
 		read (fd,&c,1);
 		std::cout<<c;
 		buf[a++]=c;
