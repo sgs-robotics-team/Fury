@@ -37,7 +37,7 @@ private:
 
 	int initializeInterface(int speed);
 	void readMotor();
-	
+	void sendCommand();
 
 	int fd;
 	char buf[100];
