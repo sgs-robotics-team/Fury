@@ -34,7 +34,8 @@ Motor::Motor()
 	std::cout << "initiazlied interface\n";
 	readMotor();
 	std::cout << "read motor\n";
-	
+	sendCommand();
+	std::cout << "sent command\n";
 }
 
 int Motor::initializeInterface(int speed){
