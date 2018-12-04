@@ -3,3 +3,9 @@ Team members installed camera libraries for CMUcam5 pixy, our robot’s planned 
 Then, team members checked the compatibility of the camera with colour sensing. 
 Next, the team worked on developing an outline of the camera mount, while ensuring compatibility with the main robot. 
 Following this, the team implemented new source files to header files and made progress on rail design to hold modular components within the robot. 
+
+Monday, November 19, 2018
+Today the team learned about square waves. 
+We propposed a model where the the Jetson was connect to the motor controller via cat 5 ethernet cable. 
+Connected to the Motor controller we would of course have 8 motors.
+We also set up an ethernet connection between the Jetson and the old Raspberry Pi.
