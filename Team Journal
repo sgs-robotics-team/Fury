@@ -9,3 +9,14 @@ Today the team learned about square waves.
 We propposed a model where the the Jetson was connect to the motor controller via cat 5 ethernet cable. 
 Connected to the Motor controller we would of course have 8 motors.
 We also set up an ethernet connection between the Jetson and the old Raspberry Pi.
+
+Friday, November 30, 2018
+Progress was slow today because we had not yet paid the $600 to register for robosub.
+We discussed adding a "stinger", to our design, in order to reduce heat.
+The "stinger" would be a aluminium rod, with high SA, allowing for quick heat release.
+We also attempted to learn about soldiering, and taking apart an AC Adapter.
+
+Monday, December 3, 2018
+Today we did work with the depth sensor.
+We also asked for a 3 D accelerometer for our PID controller.
+We also did, and I quote "stuff and numbers on the screen" ~ steph, the team leader
