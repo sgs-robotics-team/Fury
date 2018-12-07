@@ -11,7 +11,8 @@ public:
     float getRoll() { return roll; }
     float getPitch() { return pitch; }
     float getTemp() { return temperature; }
-    float getHeading() { return 123; }
+    float getHeading() { return heading; }
+    float getDepth() { return depth; }
 private:
     int initializeInterface(int speed);
     void readCompass();
@@ -22,6 +23,7 @@ private:
     float pitch;
     float roll;
     float temperature;
+    float depth;
     int fd;
     char buf [100];
 };
