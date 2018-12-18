@@ -20,3 +20,8 @@ Monday, December 3, 2018
 Today we did work with the depth sensor.
 We also asked for a 3 D accelerometer for our PID controller.
 We also did, and I quote "stuff and numbers on the screen" ~ steph, the team leader
+
+Monday, December 14, 2018
+We plan to reuse the python library for our motor instead of remaking the libraries in C++. 
+We are also able to utilize the Vex controller as a substitute controller for testing purposes while we wait for the PID Controllers. 
+The box containing the Pi will be on the outside of the chasis. 
