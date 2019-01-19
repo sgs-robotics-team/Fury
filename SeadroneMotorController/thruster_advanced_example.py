@@ -14,6 +14,12 @@
 # License v3 as published by the Free Software Foundation.
 ###############################################################
 
+
+##----------------------- TO DO LIST------------------------------------
+#1. Create function to return motor_feedback
+#2. Create function to make an emergency stop for all motors
+#3. Create a library/module/package for m
+
 import seadrone.smart_thruster as thrusters
 import threading
 import time
