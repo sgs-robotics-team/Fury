@@ -21,6 +21,7 @@ def motor_feedback_thread(m):
             motor_feedback += '{:5.2f}C '.format(m.driver_temperature[id])
             motor_feedback += 'Alarm: ' + m.get_alarm_description(id)
             print(motor_feedback)
+            #TODO: Transfer motor_feedback through ethernet again so the Jetson can figure out what to do because I don't :   ^)
             if m.has_alarm[id]:
                 print("Auto-resetting motor alarm")
                 m.reset_alarm(id)
@@ -29,9 +30,16 @@ def motor_feedback_thread(m):
 thread = threading.Thread(target=motor_feedback_thread, args=(m,))
 thread.daemon = True
 thread.start()
+#TODO: Figure out how threads work lmao
 
+def setRPM(id,speed):
+    m.target_rpm[id]=speed
 
-# The main thread moves the motors using sinusoidal inputs
+def stopAll():
+    m.target_rpm[id]=0
+    #TODO: Also cut power via kill switch
+    #Have this alongside kill switch functions for extra redundancy
+
 try:
     while True:
         for id in m.motors:
