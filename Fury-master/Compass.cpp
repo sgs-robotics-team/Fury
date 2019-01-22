@@ -23,6 +23,7 @@ Compass::Compass(){
     }
     initializeInterface(B19200);
     sendCommand(3);
+    refresh();
 }
 
 void Compass::refresh(){
@@ -88,5 +89,5 @@ void Compass::sendCommand(int length){
 void Compass::readCompass(){
     readUntil('$',0);
     readUntil('*',2);
-    sscanf(buf,"C%fP%fR%fT%f*", &heading, &pitch, &roll, &temperature);  //"C%.1fP%.1fR%.1fT%.1f*
+    sscanf(buf,"C%fP%fR%fT%fD%f*", &heading, &pitch, &roll, &temperature, &depth);  //"C%.1fP%.1fR%.1fT%.1f*
 }
