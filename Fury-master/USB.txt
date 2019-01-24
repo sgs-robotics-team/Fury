@@ -1,0 +1,6 @@
+TODO: Organize tty ports for USB devices
+
+e.g.
+Compass: ttyUSB0
+Camera: ttyUSB1
+
