@@ -12,7 +12,7 @@ port = '/dev/ttyS3'
 
 class Motor:
     m=""
-    rpm=[]
+    rpm=[N_motors]
 
     def __init__(self):
         print("Starting motors...")
