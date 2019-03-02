@@ -57,8 +57,8 @@ thread.start()
 try:
     while True:
         for id in m.motors:
-            amplitude = (len(m.motors)+1-id)*300 # RPM
-            frequency = (id+1)/20. # Hz
+            #amplitude = (len(m.motors)+1-id)*300 # RPM
+            #frequency = (id+1)/20. # Hz
             #m.target_rpm[id] = int(amplitude*math.sin(2*math.pi*(id+1)*frequency*time.time()))
             m.target_rpm[id] = 1000
         time.sleep(0.01)
@@ -66,7 +66,5 @@ except KeyboardInterrupt: # Program can be stopped pressing CTRL+C
     for id in m.motors:
         m.target_rpm[id] = 0
     print("Shutting down smart thruster library...")
-    
 
 m.stop()
-
