@@ -4,7 +4,7 @@ import time
 import math
 
 N_motors = 15
-port = '/dev/ttyUSB0'
+port = '/dev/ttyS3'
 
 #TODO: Figure out how threads work lmao
 #TODO: Also cut power via kill switch
@@ -17,8 +17,7 @@ class Motor:
     def __init__(self):
         print("Starting motors...")
         m = thrusters.start(N_motors, port)
-        for i in N_motors:
-            rpm[i] = 0
+        self.stopAll()
         print("Starting thread...")
         thread = threading.Thread(target=motor_feedback_thread, args=(m,))
         thread.daemon = True
@@ -26,7 +25,7 @@ class Motor:
         return
 
     def __del__(self):
-        m.stop
+        self.stopAll()
         return
 
     def motor_feedback_thread(m):
@@ -47,12 +46,12 @@ class Motor:
                     m.reset_alarm(id)
             time.sleep(0.05) # wait 50ms after each printout
 
-    def run(self):
+    def run(self): #TODO: Unnecessary function
         try:
             while True:
                 for id in m.motors:
                     #m.target_rpm[id] = int(amplitude*math.sin(2*math.pi*(id+1)*frequency*time.time()))
-                    m.target_rpm[id] =
+                    m.target_rpm[id] = self.rpm[id]
                 time.sleep(0.01)
         except KeyboardInterrupt: # Program can be stopped pressing CTRL+C
             for id in m.motors:
@@ -63,4 +62,6 @@ class Motor:
         m.target_rpm[id]=speed
 
     def stopAll(self):
-        m.target_rpm[id]=0
+        for id in N_motors:
+            self.rpm[id]=0
+            m.target_rpm[id]=0

@@ -60,7 +60,7 @@ try:
             #amplitude = (len(m.motors)+1-id)*300 # RPM
             #frequency = (id+1)/20. # Hz
             #m.target_rpm[id] = int(amplitude*math.sin(2*math.pi*(id+1)*frequency*time.time()))
-            m.target_rpm[id] = 2000
+            m.target_rpm[id] = 100
         time.sleep(0.01)
 except KeyboardInterrupt: # Program can be stopped pressing CTRL+C
     for id in m.motors:
