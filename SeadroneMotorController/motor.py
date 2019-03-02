@@ -62,7 +62,7 @@ class Motor:
         m.target_rpm[id]=speed
 
     def stopAll(self):
-        for id in N_motors:
+        for id in range(N_motors):
             self.rpm[id]=0
             m.target_rpm[id]=0
 
