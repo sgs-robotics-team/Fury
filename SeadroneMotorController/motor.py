@@ -65,3 +65,6 @@ class Motor:
         for id in N_motors:
             self.rpm[id]=0
             m.target_rpm[id]=0
+
+if(__name__=="__main__"):
+    m = Motor()
