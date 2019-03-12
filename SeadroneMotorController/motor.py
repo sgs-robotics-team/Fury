@@ -94,4 +94,4 @@ if(__name__=="__main__"):
     mo.setRPM(1,500)
     while True:
         mo.run()
-    m
+    mo.stop()
