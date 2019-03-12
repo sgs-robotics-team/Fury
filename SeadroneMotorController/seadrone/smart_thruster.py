@@ -45,11 +45,11 @@ class start():
         self.driver_temperature = [0. for i in range(N_motors+1)]
         self.has_alarm = [0 for i in range(N_motors+1)]
         self.alarm_code = [0 for i in range(N_motors+1)]
-        
+
         self.keep_enabled = [False for i in range(N_motors+1)]
-        
+
         self.request_alarm_reset = [False for i in range(N_motors+1)]
-        
+
         self.alarm_description = {}
         self.alarm_description[0] = "No alarm"
         self.alarm_description[16] = "Driver temperature too high"
@@ -58,7 +58,7 @@ class start():
         self.alarm_description[20] = "Motor speed/acceleration too high"
         self.alarm_description[21] = "Over current, payload is too high"
         self.alarm_description[26] = "Alarm 0x1A, overcurrent"
-        
+
         self.serial = serial.Serial(
             port=port,
             baudrate=921600,
@@ -67,13 +67,13 @@ class start():
             stopbits=serial.STOPBITS_TWO,
             timeout=0.001 # needs to be long enough to ensure driver response is fully captured
         )
-        
+
         if not self.serial.isOpen(): raise Exception("ERROR: Failed to open the serial port "+serialDevice)
-        
+
         for id in self.motors:
             self.motor_set_rpm(id, 0)
             self.motor_reset_alarm(id)
-        
+
         def motorx_thread(self):
             while self.running:
                 for id in self.motors:
@@ -86,21 +86,21 @@ class start():
             for id in self.motors: # shut down the motors
                 self.motor_set_rpm(id, 0)
                 self.motor_enable(id, False)
-        
+
         self.thread = threading.Thread(target=motorx_thread, args=(self,))
         self.thread.daemon = True
         self.thread.start()
-    
+
     def reset_alarm(self, id):
         if self.request_alarm_reset[id] != True:
             self.request_alarm_reset[id] = True
-    
+
     def get_alarm_description(self, id):
         alarm_code = self.alarm_code[id]
         if alarm_code in self.alarm_description:
             return self.alarm_description[alarm_code]
         return "Unkown alarm code %d" % alarm_code
-    
+
     def read(self, id):
         driver_read = self.serial_packet(id, self.cmd_read(1700)+self.cmd_read(1107)+self.cmd_read(1116)+self.cmd_read(1123)+self.cmd_read(1124), reply=True)
         self.serial.flush()
@@ -109,14 +109,14 @@ class start():
         if len(raw_packet) > 0:
             packet = list(raw_packet)
             self.parse_packet(packet)
-    
+
     def send(self, packet):
         self.serial.write(packet)
-    
+
     def motor_reset_alarm(self, id):
         driver_reset_alarm = self.serial_packet(id, self.cmd_write(2032, 1))
         self.send(driver_reset_alarm)
-    
+
     def motor_enable(self, id, enable):
         driver_start = self.serial_packet(id, self.cmd_write(2000, int(enable)))
         self.send(driver_start)
@@ -130,10 +130,10 @@ class start():
         if rpm == 0 and self.keep_enabled[id] == False: enable = 0
         driver_set_speed = self.serial_packet(id, self.cmd_write(2001, direction)+self.cmd_write(2002, rpm)+self.cmd_write(2000, enable))
         self.send(driver_set_speed)
-    
+
     def serial_packet(self, id, data=[], reply=False):
         packet = [id,int(len(data)/2) | ((not reply) << 7)] + data
-        print(packet)
+        #print(packet)
         return packet + self.checksum(packet)
 
     def checksum(self, packet):
@@ -183,17 +183,17 @@ class start():
         servo_alarm = packet[1] >> 7
         servo_on = (packet[1] & 0x40) >> 6
         packet_size = packet[1] & 0x1F
-        
+
         measured_size = len(packet)/2 - 2
         if measured_size != packet_size:
             print("ERROR: Bad size argument for inbound packet! Discarding...")
             return (-1,-1,[])
 
         data = packet[2:-2]
-        
+
         self.is_on[driver_id] = servo_on
         self.has_alarm[driver_id] = servo_alarm
-        
+
         moreCommands = data
         while len(moreCommands) > 0:
             (index, value, moreCommands) = self.cmd_parse(moreCommands)
@@ -202,10 +202,9 @@ class start():
             if index == 1116: self.current[driver_id] = value/100.
             if index == 1124: self.voltage[driver_id] = value/10.
             if index == 1123: self.driver_temperature[driver_id] = value/10.
-        
+
         return (driver_id, servo_alarm, servo_on, data)
 
     def stop(self):
         self.running = False
         self.thread.join()
-
