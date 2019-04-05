@@ -42,6 +42,7 @@ class Motor:
                 motor_feedback += 'Alarm: ' + self.m.get_alarm_description(id)
                 print(motor_feedback)
                 #TODO: Transfer motor_feedback through ethernet again so the Jetson can figure out what to do because I don't :   ^)
+                
                 if self.m.has_alarm[id]:
                     print("Auto-resetting motor alarm")
                     m.reset_alarm(id)
@@ -75,6 +76,23 @@ class Motor:
             self.rpm[id]=0
             self.m.target_rpm[id]=0
 
+     def stopAllSlow(self):
+        temp = 0
+        for id in range(N_motors):
+            temp = self.rpm[id]
+            #for i in range(0, temp): (does 
+                #temp = temp - 1
+                #self.rpm[id] = temp
+            
+            temp = temp/2
+            
+            self.rpm[id] = temp
+            self.m.target_rpm[id] = temp
+            time.sleep(0.1)
+            self.rpm[id] = 0
+            self.m.target_rpm[id] = 0
+            
+
     def stop(self):
         self.stopAll()
         self.m.stop()
@@ -83,6 +101,8 @@ class Motor:
     def getTemp(self,id): return self.m.driver_temperature[id]
     def getCurrent(self,id): return self.m.current[id]
     def getRpm(self,id): return self.m.rpm[id]
+
+  
 
 if(__name__=="__main__"):
     mo = Motor()
