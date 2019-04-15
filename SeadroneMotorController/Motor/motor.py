@@ -1,10 +1,9 @@
-import seadrone.smart_thruster as thrusters
-import threading
-import time
-import math
-import sys
+import smart_thruster as thrusters
+import numpy as np
 
-N_motors = 15
+import threading,time,math,sys
+
+MOTORS = 15
 port = '/dev/ttyS3'
 
 #TODO: Figure out how threads work lmao
@@ -13,17 +12,20 @@ port = '/dev/ttyS3'
 
 class Motor:
     m=""
-    rpm=[0]*N_motors
+    rpm=[0]*MOTORS
 
     def __init__(self):
         print("Starting motors...")
-        self.m = thrusters.start(N_motors, port)
+        self.m = thrusters.start(MOTORS, port)
         self.stopAll()
         print("Starting thread...")
         thread = threading.Thread(target=self.motor_feedback_thread, args=(self.m,))
         thread.daemon = True
         thread.start()
         return
+
+    def test(self):
+        print("test passed")
 
     def __del__(self):
         self.stopAll()
@@ -42,19 +44,17 @@ class Motor:
                 motor_feedback += 'Alarm: ' + self.m.get_alarm_description(id)
                 print(motor_feedback)
                 #TODO: Transfer motor_feedback through ethernet again so the Jetson can figure out what to do because I don't :   ^)
-                
+
                 if self.m.has_alarm[id]:
                     print("Auto-resetting motor alarm")
                     m.reset_alarm(id)
             time.sleep(0.01) # wait 50ms after each printout
 
-    def run(self): #TODO: Unnecessary function
+    def run_loop(self):
         try:
             while True:
                 for id in self.m.motors:
-                    #self.m.target_rpm[id] = int(amplitude*math.sin(2*math.pi*(id+1)*frequency*time.time()))
-                    #print(id)
-                    self.m.target_rpm[id] = 500#self.rpm[id]
+                    self.m.target_rpm[id] = 500
                 time.sleep(0.01)
         except KeyboardInterrupt: # Program can be stopped pressing CTRL+C
             for id in self.m.motors:
@@ -64,34 +64,30 @@ class Motor:
 
     def setRPM(self,id,speed):
         self.m.target_rpm[id]=speed
-        
+
     def setAllRPM(self,speed):
-        for id in range(N_motors):
+        for id in range(MOTORS):
             self.m.target_rpm[id]=speed
 
     def stopAll(self):
-        for id in range(N_motors):
+        for id in range(MOTORS):
             #print(id)
             #print(self.rpm)
             self.rpm[id]=0
             self.m.target_rpm[id]=0
 
-     def stopAllSlow(self):
+    def stopAllSlow(self):
         temp = 0
-        for id in range(N_motors):
+        for id in range(MOTORS):
             temp = self.rpm[id]
-            #for i in range(0, temp): (does 
-                #temp = temp - 1
-                #self.rpm[id] = temp
-            
+
             temp = temp/2
-            
+
             self.rpm[id] = temp
             self.m.target_rpm[id] = temp
             time.sleep(0.1)
             self.rpm[id] = 0
             self.m.target_rpm[id] = 0
-            
 
     def stop(self):
         self.stopAll()
@@ -102,13 +98,13 @@ class Motor:
     def getCurrent(self,id): return self.m.current[id]
     def getRpm(self,id): return self.m.rpm[id]
 
-  
+def sig_handler(signum, frame):
+    print(signum)
+    return None
 
 if(__name__=="__main__"):
+    signal.signal(signal.SIGSEGV, sig_handler)
     mo = Motor()
-    mo.setAllRPM(500)
-    try:
-        mo.run()
-    except KeyboardInterrupt:
-        sys.exit(0)
+    mo.setRPM(1,500)
+    mo.run_loop()
     mo.stop()
