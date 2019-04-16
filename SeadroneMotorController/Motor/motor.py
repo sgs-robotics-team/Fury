@@ -24,8 +24,13 @@ class Motor:
         thread.start()
         return
 
+
+
+
     def test(self):
         print("test passed")
+
+
 
     def __del__(self):
         self.stopAll()
