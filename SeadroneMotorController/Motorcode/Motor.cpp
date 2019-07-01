@@ -1,4 +1,4 @@
-#include <cstdio> 
+#include <cstdio>
 #include <cstdlib>
 #include <cerrno>
 #include <termios.h>
@@ -10,14 +10,9 @@
 #include <iostream>
 #include "Motor.h"
 
-std::string alarm_description[27];
+//std::string alarm_description[27];
 
-Motor::Values::Values(){
-
-	
-
-
-}
+//Motor::Values::Values(){}
 
 Motor::Motor()
 {
@@ -29,7 +24,7 @@ Motor::Motor()
 		printf("Error attaching SeaDrone Smart Motor Thruster on %s.\n", portname.c_str());
 		printf(" %d\n",fd);
 	}
-	printf("fd=%d",fd);
+	//printf("fd=%d",fd);
 	std::cout << "connected port\n";
 	initializeInterface(B921600);
 	std::cout << "initiazlied interface\n";
@@ -47,9 +42,9 @@ int Motor::initializeInterface(int speed){
 		printf("Error %d from tcgetattr.\n",errno);
 		return -1;
 	}
-	
+
 	cfsetspeed(&tty,speed);
-	
+
 	tty.c_cflag &= ~PARENB; //no parity
 	tty.c_cflag &= ~CSTOPB; //two stop bits
 	tty.c_cflag &= ~CSIZE; //
@@ -62,14 +57,15 @@ int Motor::initializeInterface(int speed){
 		printf("Error %d from tcgetattr.\n",errno);
 		return -1;
 	}
-	
-        alarm_description[0] = "No alarm";
-        alarm_description[16] = "Driver temperature too high";
-        alarm_description[18] = "Input voltage too high";
-        alarm_description[19] = "Input voltage too low";
-        alarm_description[20] = "Motor speed/acceleration too high";
-        alarm_description[21] = "Over current, payload is too high";
-        alarm_description[26] = "Alarm 0x1A, overcurrent";
+	/*
+  alarm_description[0] = "No alarm";
+  alarm_description[16] = "Driver temperature too high";
+  alarm_description[18] = "Input voltage too high";
+  alarm_description[19] = "Input voltage too low";
+  alarm_description[20] = "Motor speed/acceleration too high";
+  alarm_description[21] = "Over current, payload is too high";
+  alarm_description[26] = "Alarm 0x1A, overcurrent";
+	*/
 	return 0;
 }
 
@@ -85,9 +81,25 @@ void Motor::readMotor(){
 
 }
 
+
+void setRPM(int id,int target_rpm){
+	int direction = 1,rpm=target_rpm;
+	if(target_rpm<0){
+		target_rpm*=-1;
+		direction*=-1;
+	}
+	if(target_rpm>5500){
+		rpm=5500;
+	}else if(target_rpm<300){
+		rpm=300;
+	}
+
+
+}
+
 void Motor::sendCommand(){
-	
-	
+
+
 }
 
 std::string getAlarm(int code){
@@ -95,10 +107,3 @@ std::string getAlarm(int code){
 
 
 }
-
-
-
-
-
-
-

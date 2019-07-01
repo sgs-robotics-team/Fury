@@ -25,8 +25,6 @@ class Motor:
         return
 
 
-
-
     def test(self):
         print("test passed")
 
